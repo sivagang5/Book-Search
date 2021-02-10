@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <title>Book Details</title>
+</head>
+<body>
+    <div style="padding: 30px 200px">
+        
+            <div id='t1' style="font-size: 25px;">
+                
+            </div>
+            <div id='by' style="margin-top: 20px; margin-bottom: 10px;">
+                
+            </div>
+
+        <div style="margin-top: 50px; margin-bottom: 20px; font-size: 20px;">
+            <strong>About this edition </strong>
+            
+        </div>
+        <div style="display: flex; ;">
+            <div style="width: 50%; border: solid 1px black; padding: 10px;">
+                <div>ISBN: 8769876987698</div>
+                <div id='aut'></div>
+                <div id = 'pdt1'></div>
+                <div id='pub1'></div>
+                
+            </div>
+            <div style="width: 50%; border: solid 1px black;padding: 10px">
+                <div id='page1'></div>
+                <div id='fmt1'>Format: E-book</div>
+                <div>Language: English</div>
+                <div></div>
+            </div>
+            
+        </div>
+    
+        <div id='des' style="margin-top: 20px; border: solid 1px; padding: 10px">
+            
+        </div>
+        <div style="border: solid 1px; padding: 10px; border-top: none;">
+            <div style="margin-top: 20px; margin-bottom: 10px;">
+                Reviews
+            </div>
+            <div>
+                <div style="margin-top: 10px;">
+                    DarkKnight
+                </div>
+                <div>
+                    ***** from Library Thing
+                </div>
+                <div style="margin-top: 10px;">
+                    Another Sidney Sheldon book, another adventure in to his creative mind. In Bloodline we find ourselves learning about the Roffe 
+                    family who owns & controls the multinational pharmaceutical company Roffe & Sons. In the initial portion of the book each family 
+                    members greed and desperation is laid out then the plot advances with the death of the President Sam Roffe and a fresh face in the 
+                    form of his seemingly neglected daughter Elizabeth comes to the forefront of the company.
+                </div>
+        
+            </div>
+            <div>
+                <div style="margin-top: 10px;">
+                    Henry Moreaux
+                </div>
+                <div>
+                    ***** from Library Thing
+                </div>
+                <div style="margin-top: 10px;">
+                    A fast reading, enjoyable, and suspenseful novel.
+                </div>
+        
+            </div>
+            <div>
+                <div style="margin-top: 10px;">
+                    Sharon Williams
+                </div>
+                <div>
+                    ***** from Library Thing
+                </div>
+                <div style="margin-top: 10px;">
+                    One of those books I could. not. put. down........my very first Sidney Sheldon book, read in 1980.....I was on the hunt for any and 
+                    all previous books then......once done with my glom I had to wait for each new release...
+                </div>
+        
+            </div>
+
+        </div>
+        
+
+    </div>
+    
+
+    <script>
+
+        bkid="ceOK9LZOZ0YC"
+        var url = 'https://www.googleapis.com/books/v1/volumes?q='+bkid
+
+        fetch(url)
+        .then((resp) => resp.json())
+        .then((data) => {
+            disp(data.items)
+        })
+
+        function disp(b) {
+            c=b.length
+            
+            t=document.getElementById('t1')
+            des=document.getElementById('des')
+            aut=document.getElementById('aut')
+            by=document.getElementById('by')
+            pdt1=document.getElementById('pdt1')
+            pub1=document.getElementById('pub1')
+            fmt1=document.getElementById('fmt1')
+            for (i=0;i<c;i++) {
+                if (bkid===b[i].id) {
+                    title = b[0].volumeInfo.title
+                    author=b[0].volumeInfo.authors[0]
+                    desc=b[0].volumeInfo.description
+                    page2=b[0].volumeInfo.pageCount
+                    pub2=b[0].volumeInfo.publisher
+                    pdt2=b[0].volumeInfo.publishedDate
+                    pdt3=new Date(pdt2)
+                    pyr=pdt3.getFullYear()
+                    
+                    t.innerHTML=`<strong>${title}</strong>`
+                    des.innerHTML=`${desc}`
+                    aut.innerHTML=`Author: ${author}`
+                    pdt1.innerHTML=`Published Date: ${pdt2}`
+                    pub1.innerHTML=`Publisher: ${pub2}`
+                    page1.innerHTML=`Page Count: ${page2}`
+                    by.innerHTML=`By ${author} . ${pyr}`
+                    break
+                } else {
+                    t.innerHTML='Details not found'
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

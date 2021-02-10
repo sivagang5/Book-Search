@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <title>Books</title>
+    <style>
+        a:link {
+        text-decoration: none;
+        color: black
+        }
+
+        a:visited {
+        text-decoration: none;
+        }
+
+        a:hover {
+        text-decoration: underline;
+        color: darkblue
+        }
+    </style>
+</head>
+
+<body style="background-color: rgba(234, 247, 247, 0.733);">
+
+    <br><br>
+    <div style="display: flex; justify-content: center; align-items: center; ;">
+        <span style="font-size: 30px;">Books Library </span><br><br><br><br><br><br>
+    </div>
+    <div style="display: flex; justify-content: center; align-items: center; ">
+        <span style="font-size: 20px;">Search the world's most comprehensive index of books. </span><br><br><br><br>
+    </div>
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <input id='inp1' type="text" style="width: 20%; height: 25px;" placeholder='&nbsp Enter search term'>
+        <button id='b1' style="height: 30px;">Search</button><br><br>
+    </div>
+    <br><br>
+
+    <div id='d2' >
+
+    </div>  
+
+    <script>
+
+        document.getElementById('b1').onclick = d1;
+
+        function d1() {
+            a=document.getElementById('inp1').value
+            var url = 'https://www.googleapis.com/books/v1/volumes?q='+a
+            fetch(url)
+            .then((resp) => resp.json())
+            .then((data) => {
+                disp(data.items)
+            })
+        }
+
+        function disp(a) {
+            b=a.length
+            c=document.getElementById('d2')
+            c.innerHTML=''
+            for (i=0;i<b;i++) {
+
+                let div = document.createElement('DIV');
+                divid = 'div'+i
+                div.setAttribute('id',divid)
+                div.style.padding='0px 180px'
+                div.style.margin='10px'
+                c.appendChild(div);
+
+                d=document.getElementById(divid)
+                let img = document.createElement('IMG');
+                d.appendChild(img);
+                d.style.display='flex'
+                d.style.justifyContent='flex-start'
+                d.style.padding='0px 180px'
+                d.style.margin='10px'
+                d.style.height='200px'
+
+                if (a[i].volumeInfo.imageLinks===undefined) {e='pic1.jpg'}
+                else {e=a[i].volumeInfo.imageLinks.thumbnail}
+                img.setAttribute('src',e)
+                img.setAttribute('width','13%')
+                img.setAttribute('height','200px')
+
+                let div1 = document.createElement('DIV');
+                divid1 = 'div11'+i
+                div1.setAttribute('id',divid1)
+                
+                d.appendChild(div1);
+                div1a=document.getElementById(divid1)
+                  
+                div1a.setAttribute('onclick','f1(this.bkid)')                
+                div1a.style.padding='0px 15px'
+                div1a.style.width='100%'
+                div1a.style.backgroundColor='rgba(191, 224, 224, 0.733)'
+                div1a.addEventListener('mouseover',function(){event.stopPropagation(); 
+                    this.style.backgroundColor='rgba(167, 212, 212, 0.733)'})
+                div1a.addEventListener('mouseout',function(){event.stopPropagation(); 
+                    this.style.backgroundColor='rgba(191, 224, 224, 0.733)'})
+                
+                let div2 = document.createElement('DIV');
+                divid2 = 'div21'+i
+                div2.setAttribute('id',divid2)
+                div1a.appendChild(div2);
+                div2a=document.getElementById(divid2)
+                div2a.innerHTML=`<a>${a[i].volumeInfo.title}</a>`
+                bkid=a[i].id
+                div1a.setAttribute('bookid',bkid)  
+
+                let div3 = document.createElement('DIV');
+                divid3 = 'div22'+i
+                div3.setAttribute('id',divid3)
+                div1a.appendChild(div3);
+                div3a=document.getElementById(divid3)
+                div3a.innerHTML=a[i].volumeInfo.authors[0]
+
+                let div4 = document.createElement('DIV');
+                divid4 = 'div23'+i
+                div4.setAttribute('id',divid4)
+                div1a.appendChild(div4);
+                div4a=document.getElementById(divid4)
+                div4a.style.height='140px'
+                div4a.style.overflow='auto'
+                div4a.innerHTML=a[i].volumeInfo.description
+            }
+        }
+
+        function f1(id) {
+            localStorage["bookid"] = id;
+            location.href='bookdetail.html'
+        }
+
+    </script>
+
+</body>
+</html>
